@@ -56,7 +56,7 @@ const noticeSchema = new Schema(
 noticeSchema.post("save", handleMongooseError);
 const Notice = model("notice", noticeSchema);
 
-const schema = Joi.object({
+const addSchema = Joi.object({
   title: Joi.string().required(),
   petName: Joi.string().required(),
   dateOfBirth: Joi.string().required(),
@@ -71,6 +71,6 @@ const schema = Joi.object({
     .required(),
 });
 
-const schemas = { schema };
+const schemas = { addSchema };
 
 module.exports = { Notice, schemas };
