@@ -40,6 +40,19 @@ const userShema = new Schema(
       type: String,
       required: false,
     },
+    birthday: {
+      type: String,
+      default: "01.01.1900",
+    },
+    notieceId: {
+      type: [{ type: Schema.Types.ObjectId }],
+      default: null,
+    },
+
+    favoriteNoticeId: {
+      type: [{ type: Schema.Types.ObjectId }],
+      default: null,
+    },
     // verify: {
     //   type: Boolean,
     //   default: false,
