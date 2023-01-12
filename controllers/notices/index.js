@@ -1,8 +1,8 @@
-const cntrlWrapper = require("../../helpers/cntrlWrapper");
+const ctrlWrapper = require("../../helpers/ctrlWrapper");
 const getNoticesByCategory = require("./getNoticesByCategory");
 const getNoticeById = require("./getNoticeById");
 
 module.exports = {
-  getNoticesByCategory: cntrlWrapper(getNoticesByCategory),
-  getNoticeById: cntrlWrapper(getNoticeById),
+  getNoticesByCategory: ctrlWrapper(getNoticesByCategory),
+  getNoticeById: ctrlWrapper(getNoticeById),
 };
