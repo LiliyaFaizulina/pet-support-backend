@@ -41,7 +41,7 @@ const noticeSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["lost/found", "in good hands", "sell"],
+      enum: ["lost-found", "in-good-hands", "sell"],
       required: true,
     },
     owner: {
@@ -67,7 +67,7 @@ const addSchema = Joi.object({
   image: Joi.string(),
   comments: Joi.string(),
   category: Joi.string()
-    .allow("lost/found", "in good hands", "sell")
+    .allow("lost-found", "in-good-hands", "sell")
     .required(),
 });
 
