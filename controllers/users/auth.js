@@ -135,7 +135,7 @@ module.exports = {
   login: ctrlWrapper(login),
   register: ctrlWrapper(register),
   //   verify: ctrlWrapper(verify),
-  //   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
+  //   resendVerifyEmail: ctrlWrapper(resendVerifyEmail)
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
 };
