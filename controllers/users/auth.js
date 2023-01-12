@@ -1,14 +1,14 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
-const path = require("path");
-const fs = require("fs/promises");
-const { nanoid } = require("nanoid");
+// const path = require("path");
+// const fs = require("fs/promises");
+// const { nanoid } = require("nanoid");
 
 const { User } = require("../../models/user");
-const { HttpError, ctrlWrapper, sendEmail } = require("../../helpers/index");
+const { HttpError, ctrlWrapper } = require("../../helpers/index");
 require("dotenv").config();
-const { SECRET_KEY, BASE_URL } = process.env;
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;

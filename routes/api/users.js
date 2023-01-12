@@ -22,5 +22,11 @@ router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 router.get("/current", authenticate, ctrl.getCurrent);
 
 router.get("/logout", authenticate, ctrl.logout);
+router.put(
+  "/:id",
+  authenticate,
+  validateBody(schemas.addSchema),
+  ctrl.updateUserById
+);
 
 module.exports = router;
