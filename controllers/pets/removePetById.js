@@ -1,5 +1,5 @@
 const { Pet } = require("../../models/pets");
-const { HttpError } = require("../helpers");
+const { HttpError } = require("../../helpers");
 const { ObjectId } = require("mongodb");
 
 const removePetById = async (req, res) => {

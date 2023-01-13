@@ -1,6 +1,6 @@
 const { User } = require("../../models/user");
 
-const { HttpError } = require("../helpers");
+const { HttpError } = require("../../helpers");
 
 const updateUser = async (req, res) => {
   const { properties } = req.params;
@@ -62,10 +62,28 @@ const updateUser = async (req, res) => {
   if (!result) {
     throw HttpError(404, "User not found");
   }
-
+  const {
+    name,
+    email,
+    avatarURL,
+    birthday,
+    city,
+    phone,
+    notieceId,
+    favoriteNoticeId,
+  } = result;
   res.json({
     message: "success",
-    data: result,
+    data: {
+      name,
+      email,
+      avatarURL,
+      birthday,
+      city,
+      phone,
+      notieceId,
+      favoriteNoticeId,
+    },
   });
 };
 

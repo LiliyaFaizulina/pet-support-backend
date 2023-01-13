@@ -1,28 +1,21 @@
 const cloudinary = require("cloudinary");
 
-const { CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET } = process.env;
+const { CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_SECRET } = process.env;
 
 cloudinary.config({
   cloud_name: CLOUD_NAME,
-  api_key: CLOUD_KEY,
-  api_secret: CLOUD_SECRET,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_SECRET,
   secure: true,
 });
 
 exports.uploads = (file, folder) => {
-  // cloudinary.image(file, { // not work as well
-  //
-  //   secure: true,
-  //   transformation: [{ width: 350, height: 350, gravity: "face", crop: "thumb" }, { radius: 20 }],
-  // });
-
   return new Promise((resolve) => {
     cloudinary.uploader.upload(
       file,
       (result) => {
         resolve({
           url: result.url,
-          //   id: result.public_id,
         });
       },
       {

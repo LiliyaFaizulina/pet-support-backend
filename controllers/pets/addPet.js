@@ -1,5 +1,5 @@
 const { Pet } = require("../../models/pets");
-const { HttpError } = require("../helpers");
+const { HttpError } = require("../../helpers");
 const Jimp = require("jimp");
 const fs = require("fs/promises");
 // const path = require("path"); // need for avatarDir
