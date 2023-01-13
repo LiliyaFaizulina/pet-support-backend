@@ -2,13 +2,21 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 // const path = require("path");
-// const fs = require("fs/promises");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs/promises");
 // const { nanoid } = require("nanoid");
 
 const { User } = require("../../models/user");
 const { HttpError, ctrlWrapper } = require("../../helpers/index");
 require("dotenv").config();
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, CLOUDINARY_API_KEY, CLOUDINARY_SECRET, CLOUD_NAME } =
+  process.env;
+
+cloudinary.config({
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_SECRET,
+  cloud_name: CLOUD_NAME,
+});
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -130,10 +138,37 @@ const logout = async (req, res) => {
     message: "Logout success",
   });
 };
+const updateUserById = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, "User not found");
+  }
+  res.json({
+    name: result.name,
+    city: result.city,
+    phone: result.phone,
+    avatarURL: result.avatarURL,
+  });
+};
+const editAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload } = req.file;
+  const { url } = await cloudinary.uploader.upload(tempUpload);
+  const avatarURL = url;
+  await User.findByIdAndUpdate(_id, { avatarURL });
+  fs.unlink(tempUpload);
+  res.json({
+    avatarURL,
+  });
+};
 
 module.exports = {
   login: ctrlWrapper(login),
   register: ctrlWrapper(register),
+  updateUserById: ctrlWrapper(updateUserById),
+  editAvatar: ctrlWrapper(editAvatar),
   //   verify: ctrlWrapper(verify),
   //   resendVerifyEmail: ctrlWrapper(resendVerifyEmail)
   logout: ctrlWrapper(logout),
