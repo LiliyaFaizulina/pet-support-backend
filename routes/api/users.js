@@ -24,4 +24,3 @@ router.get("/current", authenticate, ctrl.getCurrent);
 router.get("/logout", authenticate, ctrl.logout);
 
 module.exports = router;
-// hgk
