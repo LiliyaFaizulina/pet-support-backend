@@ -7,7 +7,7 @@ const getAllNews = async (req, res) => {
   if (!news) {
     throw HttpError(404, error.message);
   }
-  res.json(news);
+  res.json({ news });
 };
 
 module.exports = {

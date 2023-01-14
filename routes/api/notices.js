@@ -4,10 +4,10 @@ const { authenticate } = require("../../midlewares");
 
 const router = express.Router();
 
+router.get("/own", authenticate, controller.getUserNotices);
+router.get("/favorite", authenticate, controller.getNoticeByFavorite);
 router.get("/:categoryName", controller.getNoticesByCategory);
 router.get("/:noticeId", controller.getNoticeById);
-router.get("/favorite", authenticate, controller.getNoticeByFavorite);
-router.get("/own", authenticate, controller.getUserNotices);
 router.put("/:categoryName", authenticate, controller.addNoticeByCategory);
 router.patch("/:noticeId", authenticate, controller.updateFavorite);
 
