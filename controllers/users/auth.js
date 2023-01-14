@@ -42,7 +42,7 @@ const login = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
-  
+
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
     throw HttpError(401, "Email or password is wrong");
@@ -149,8 +149,6 @@ module.exports = {
   register: ctrlWrapper(register),
   updateUserById: ctrlWrapper(updateUserById),
   editAvatar: ctrlWrapper(editAvatar),
-  //   verify: ctrlWrapper(verify),
-  //   resendVerifyEmail: ctrlWrapper(resendVerifyEmail)
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
   refreshToken: ctrlWrapper(refreshToken),
