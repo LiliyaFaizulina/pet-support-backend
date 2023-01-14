@@ -11,12 +11,7 @@ const {
 const { ctrlWrapper } = require("../../helpers");
 
 const { schemasPet } = require("../../models/pets");
-const {
-  addPet,
-  getUser,
-  removePetById,
-  updateUser,
-} = require("../../controllers/pets");
+const { addPet, getUser, removePetById } = require("../../controllers/pets");
 
 router.get("/", authenticate, ctrlWrapper(getUser));
 
@@ -29,7 +24,5 @@ router.post(
 );
 
 router.delete("/:petsId", authenticate, isValidId, ctrlWrapper(removePetById));
-
-router.patch("/:properties", authenticate, ctrlWrapper(updateUser));
 
 module.exports = router;

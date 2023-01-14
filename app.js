@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const cloudinary = require('cloudinary').v2
 
 const usersRouter = require("./routes/api/users");
 const noticesRouter = require("./routes/api/notices");
@@ -11,6 +12,15 @@ const sponsorsRouter = require("./routes/api/sponsors");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+const {CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_SECRET} = process.env;
+cloudinary.config({
+  cloud_name: CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_SECRET,
+  secure: true,
+});
+
 
 app.use(logger(formatsLogger));
 app.use(cors());
