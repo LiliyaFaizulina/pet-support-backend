@@ -1,5 +1,5 @@
 const { Notice } = require("../../models/notices");
-const { HttpError } = require("../../helpers/HttpError");
+const { HttpError } = require("../../helpers");
 
 const getNoticeById = async (req, res) => {
   const { noticeId } = req.params;

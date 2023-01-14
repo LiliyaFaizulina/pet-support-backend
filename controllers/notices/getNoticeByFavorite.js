@@ -1,5 +1,5 @@
 const { Notice } = require("../../models/notices");
-const { HttpError } = require("../../helpers/HttpError");
+const { HttpError } = require("../../helpers");
 
 const getNoticeByFavorite = async (req, res) => {
   const { _id, favoriteNotices } = req.user;

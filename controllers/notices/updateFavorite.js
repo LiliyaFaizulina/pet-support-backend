@@ -1,5 +1,5 @@
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers/HttpError");
+const { HttpError } = require("../../helpers");
 
 const updateFavorite = async (req, res) => {
   const { noticeId } = req.params;
