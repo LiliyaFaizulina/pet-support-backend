@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/:categoryName", controller.getNoticesByCategory);
 router.get("/:noticeId", controller.getNoticeById);
 router.get("/favorite", authenticate, controller.getNoticeByFavorite);
-router.put("/:categoryName", controller.addNoticeByCategory);
+router.get("/own", authenticate, controller.getUserNotices);
+router.put("/:categoryName", authenticate, controller.addNoticeByCategory);
+router.patch("/:noticeId", authenticate, controller.updateFavorite);
 
 module.exports = router;

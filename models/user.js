@@ -49,9 +49,10 @@ const userShema = new Schema(
       default: null,
     },
 
-    favoriteNoticeId: {
+    favoriteNotices: {
       type: [{ type: Schema.Types.ObjectId }],
-      default: null,
+      default: [],
+      ref: "notice",
     },
     // verify: {
     //   type: Boolean,
