@@ -10,5 +10,6 @@ router.get("/:categoryName", controller.getNoticesByCategory);
 router.get("/:noticeId", controller.getNoticeById);
 router.put("/:categoryName", authenticate, controller.addNoticeByCategory);
 router.patch("/:noticeId", authenticate, controller.updateFavorite);
+router.delete("/:noticeId", authenticate, controller.deleteNoticeById);
 
 module.exports = router;
