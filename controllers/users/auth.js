@@ -149,7 +149,8 @@ const updateUserById = async (req, res) => {
     name: result.name,
     city: result.city,
     phone: result.phone,
-    avatarURL: result.avatarURL,
+    email: result.email,
+    birthday: result.birthday,
   });
 };
 const editAvatar = async (req, res) => {

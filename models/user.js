@@ -73,10 +73,11 @@ const registerSchema = Joi.object({
   phone: Joi.string().required(),
 });
 const userUpdateSchema = Joi.object({
+  email: Joi.string(),
   name: Joi.string(),
   city: Joi.string(),
   phone: Joi.string(),
-  avatarURL: Joi.string(),
+  birthday: Joi.string(),
 });
 const loginSchema = Joi.object({
   password: Joi.string().required().min(7),
