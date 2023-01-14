@@ -20,9 +20,7 @@ const updateFavorite = async (req, res) => {
     throw HttpError(404);
   }
   res.json({
-    result: {
-      user: { email: user.email, favoriteNotices: user.favoriteNotices },
-    },
+    user: { email: user.email, favoriteNotices: user.favoriteNotices },
   });
 };
 
