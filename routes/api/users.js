@@ -24,16 +24,16 @@ router.get("/current", authenticate, ctrl.getCurrent);
 router.get("/logout", authenticate, ctrl.logout);
 
 router.put(
-  "/:id",
-  authenticate,
-  validateBody(schemas.userUpdateSchema),
-  ctrl.updateUserById
-);
-router.post(
   "/:id/avatar",
   authenticate,
   upload.single("avatar"),
   ctrl.editAvatar
+);
+router.put(
+  "/:id",
+  authenticate,
+  validateBody(schemas.userUpdateSchema),
+  ctrl.updateUserById
 );
 
 module.exports = router;
