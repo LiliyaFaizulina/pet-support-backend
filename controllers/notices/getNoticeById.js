@@ -7,7 +7,7 @@ const getNoticeById = async (req, res) => {
   if (!notice) {
     throw HttpError(404);
   }
-  res.json(notice);
+  res.json({ notice });
 };
 
 module.exports = getNoticeById;

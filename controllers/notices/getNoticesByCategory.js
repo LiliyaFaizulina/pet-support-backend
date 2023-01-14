@@ -7,7 +7,7 @@ const getNoticesByCategory = async (req, res) => {
   if (!notices) {
     throw HttpError(404);
   }
-  res.json(notices);
+  res.json({ notices });
 };
 
 module.exports = getNoticesByCategory;
