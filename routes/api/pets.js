@@ -5,8 +5,7 @@ const router = express.Router();
 const {
   validateBody,
   authenticate,
-  isValidId,
-  upload,
+   upload,
 } = require("../../midlewares");
 const { ctrlWrapper } = require("../../helpers");
 
@@ -18,11 +17,11 @@ router.get("/", authenticate, ctrlWrapper(getUser));
 router.post(
   "/",
   authenticate,
-  upload.single("avatar"),
+  upload.single("petAvatar"),
   validateBody(schemasPet.addPetSchema),
   ctrlWrapper(addPet)
 );
 
-router.delete("/:petsId", authenticate, isValidId, ctrlWrapper(removePetById));
+router.delete("/:petsId", authenticate, ctrlWrapper(removePetById));
 
 module.exports = router;

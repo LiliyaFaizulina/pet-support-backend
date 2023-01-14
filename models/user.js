@@ -28,11 +28,7 @@ const userShema = new Schema(
       type: String,
       required: true,
     },
-    // subscription: {
-    //   type: String,
-    //   enum: ["starter", "pro", "business"],
-    //   default: "starter",
-    // },
+
     accessToken: {
       type: String,
     },
@@ -57,14 +53,6 @@ const userShema = new Schema(
       default: [],
       ref: "notices",
     },
-    // verify: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // verificationToken: {
-    //   type: String,
-    //   required: [true, "Verify token is required"],
-    // },
   },
   { versionKey: false }
 );
@@ -84,12 +72,9 @@ const userUpdateSchema = Joi.object({
   birthday: Joi.string(),
 });
 const loginSchema = Joi.object({
-  password: Joi.string().required().min(7),
+  password: Joi.string().required().min(7).max(32),
   email: Joi.string().pattern(RegMailExp).required(),
 });
-// const verifyEmailSchema = Joi.object({
-//   email: Joi.string().pattern(RegMailExp).required(),
-// });
 
 const refreshTokenSchema = Joi.object({
   refreshToken: Joi.string().required(),
@@ -100,7 +85,6 @@ const schemas = {
   loginSchema,
   userUpdateSchema,
   refreshTokenSchema,
-  //   verifyEmailSchema,
 };
 
 const User = model("user", userShema);

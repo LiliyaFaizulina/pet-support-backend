@@ -9,8 +9,8 @@ const petSchema = new Schema(
       required: [true, "Set name for pets"],
     },
     birthday: {
-      type: String,
-      default: "01.01.1900",
+      type: Date,
+      default: new Date(),
     },
     breed: {
       type: String,
@@ -20,7 +20,7 @@ const petSchema = new Schema(
       type: String,
       default: "",
     },
-    avatar: {
+    petAvatar: {
       type: String,
       default: "",
       required: true,  
