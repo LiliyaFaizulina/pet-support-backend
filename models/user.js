@@ -33,7 +33,10 @@ const userShema = new Schema(
     //   enum: ["starter", "pro", "business"],
     //   default: "starter",
     // },
-    token: {
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
       type: String,
     },
     avatarURL: {
@@ -67,24 +70,36 @@ const userShema = new Schema(
 );
 
 const registerSchema = Joi.object({
-  password: Joi.string().required().min(6),
+  password: Joi.string().required().min(7).max(32),
   email: Joi.string().pattern(RegMailExp).required(),
   name: Joi.string().required().min(2),
   city: Joi.string().required(),
   phone: Joi.string().required(),
 });
-
+const userUpdateSchema = Joi.object({
+  email: Joi.string(),
+  name: Joi.string(),
+  city: Joi.string(),
+  phone: Joi.string(),
+  birthday: Joi.string(),
+});
 const loginSchema = Joi.object({
-  password: Joi.string().required().min(6),
+  password: Joi.string().required().min(7),
   email: Joi.string().pattern(RegMailExp).required(),
 });
 // const verifyEmailSchema = Joi.object({
 //   email: Joi.string().pattern(RegMailExp).required(),
 // });
 
+const refreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
+  userUpdateSchema,
+  refreshTokenSchema,
   //   verifyEmailSchema,
 };
 
