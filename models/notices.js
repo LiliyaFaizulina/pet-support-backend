@@ -44,10 +44,6 @@ const noticeSchema = new Schema(
       enum: ["lost-found", "in-good-hands", "sell"],
       required: true,
     },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",

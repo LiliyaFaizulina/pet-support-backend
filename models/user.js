@@ -49,9 +49,10 @@ const userShema = new Schema(
       default: null,
     },
 
-    favoriteNoticeId: {
+    favoriteNotices: {
       type: [{ type: Schema.Types.ObjectId }],
-      default: null,
+      default: [],
+      ref: "notice",
     },
     // verify: {
     //   type: Boolean,
@@ -66,15 +67,21 @@ const userShema = new Schema(
 );
 
 const registerSchema = Joi.object({
-  password: Joi.string().required().min(6),
+  password: Joi.string().required().min(7).max(32),
   email: Joi.string().pattern(RegMailExp).required(),
   name: Joi.string().required().min(2),
   city: Joi.string().required(),
   phone: Joi.string().required(),
 });
-
+const userUpdateSchema = Joi.object({
+  email: Joi.string(),
+  name: Joi.string(),
+  city: Joi.string(),
+  phone: Joi.string(),
+  birthday: Joi.string(),
+});
 const loginSchema = Joi.object({
-  password: Joi.string().required().min(6),
+  password: Joi.string().required().min(7),
   email: Joi.string().pattern(RegMailExp).required(),
 });
 // const verifyEmailSchema = Joi.object({
@@ -84,6 +91,7 @@ const loginSchema = Joi.object({
 const schemas = {
   registerSchema,
   loginSchema,
+  userUpdateSchema,
   //   verifyEmailSchema,
 };
 
