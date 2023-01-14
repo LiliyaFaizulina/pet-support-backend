@@ -33,7 +33,10 @@ const userShema = new Schema(
     //   enum: ["starter", "pro", "business"],
     //   default: "starter",
     // },
-    token: {
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
       type: String,
     },
     avatarURL: {
@@ -88,10 +91,15 @@ const loginSchema = Joi.object({
 //   email: Joi.string().pattern(RegMailExp).required(),
 // });
 
+const refreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
   userUpdateSchema,
+  refreshTokenSchema,
   //   verifyEmailSchema,
 };
 

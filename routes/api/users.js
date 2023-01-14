@@ -31,4 +31,10 @@ router.put(
   ctrl.updateUserById
 );
 
+router.post(
+  "/refresh",
+  validateBody(schemas.refreshTokenSchema),
+  ctrl.refreshToken
+);
+
 module.exports = router;

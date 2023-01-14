@@ -9,8 +9,13 @@ const fs = require("fs/promises");
 const { User } = require("../../models/user");
 const { HttpError, ctrlWrapper } = require("../../helpers/index");
 require("dotenv").config();
-const { SECRET_KEY, CLOUDINARY_API_KEY, CLOUDINARY_SECRET, CLOUD_NAME } =
-  process.env;
+const {
+  ACCESS_SECRET_KEY,
+  REFRESH_SECRET_KEY,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_SECRET,
+  CLOUD_NAME,
+} = process.env;
 
 cloudinary.config({
   api_key: CLOUDINARY_API_KEY,
@@ -107,8 +112,13 @@ const login = async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
+    expiresIn: "3m",
+  });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
+  await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
   res.json({
     user: {
@@ -118,7 +128,8 @@ const login = async (req, res) => {
       phone: user.phone,
       avatarURL: user.avatarURL,
     },
-    token,
+    accessToken,
+    refreshToken,
   });
 };
 
@@ -133,7 +144,7 @@ const getCurrent = (req, res) => {
 
 const logout = async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: "" });
+  await User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
   res.json({
     message: "Logout success",
   });
@@ -165,6 +176,34 @@ const editAvatar = async (req, res) => {
   });
 };
 
+const refreshToken = async (req, res) => {
+  const { refreshToken: token } = req.body;
+  try {
+    const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+    const isValid = await User.findOne({ refreshToken: token });
+    if (!isValid) {
+      throw HttpError(403, "invalid signature");
+    }
+    const payload = {
+      id,
+    };
+
+    const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
+      expiresIn: "3m",
+    });
+    const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+      expiresIn: "7d",
+    });
+
+    res.json({
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    throw HttpError(403, error.message);
+  }
+};
+
 module.exports = {
   login: ctrlWrapper(login),
   register: ctrlWrapper(register),
@@ -174,4 +213,5 @@ module.exports = {
   //   resendVerifyEmail: ctrlWrapper(resendVerifyEmail)
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
+  refreshToken: ctrlWrapper(refreshToken),
 };
