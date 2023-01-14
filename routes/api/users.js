@@ -23,12 +23,7 @@ router.get("/current", authenticate, ctrl.getCurrent);
 
 router.get("/logout", authenticate, ctrl.logout);
 
-router.put(
-  "/:id/avatar",
-  authenticate,
-  upload.single("avatar"),
-  ctrl.editAvatar
-);
+router.put("/avatar", authenticate, upload.single("avatar"), ctrl.editAvatar);
 router.put(
   "/:id",
   authenticate,
