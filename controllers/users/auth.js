@@ -4,7 +4,6 @@ const gravatar = require("gravatar");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs/promises");
 
-
 const { User } = require("../../models/user");
 const { HttpError, ctrlWrapper } = require("../../helpers/index");
 require("dotenv").config();
@@ -21,19 +20,16 @@ const register = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
 
-
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarURL,
-   
   });
 
   res.status(201).json({
     email: newUser.email,
   });
 };
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -90,9 +86,9 @@ const logout = async (req, res) => {
   });
 };
 const updateUserById = async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.user;
 
-  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, "User not found");
   }
