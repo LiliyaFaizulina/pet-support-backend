@@ -18,7 +18,7 @@ router.get("/logout", authenticate, ctrl.logout);
 
 router.put("/avatar", authenticate, upload.single("avatar"), ctrl.editAvatar);
 router.put(
-  "/:id",
+  "/",
   authenticate,
   validateBody(schemas.userUpdateSchema),
   ctrl.updateUserById
