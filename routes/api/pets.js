@@ -2,17 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const {
-  validateBody,
-  authenticate,
-   upload,
-} = require("../../midlewares");
+const { validateBody, authenticate, upload } = require("../../midlewares");
 const { ctrlWrapper } = require("../../helpers");
 
 const { schemasPet } = require("../../models/pets");
-const { addPet, getUser, removePetById } = require("../../controllers/pets");
-
-router.get("/", authenticate, ctrlWrapper(getUser));
+const { addPet, removePetById } = require("../../controllers/pets");
 
 router.post(
   "/",

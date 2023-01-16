@@ -1,10 +1,12 @@
 const express = require("express");
 
 const ctrl = require("../../controllers/users/auth");
+const { getUser } = require("../../controllers/pets");
 
 const { validateBody, authenticate, upload } = require("../../midlewares");
 
 const { schemas } = require("../../models/user");
+const { get } = require("mongoose");
 
 const router = express.Router();
 
@@ -17,8 +19,9 @@ router.get("/current", authenticate, ctrl.getCurrent);
 router.get("/logout", authenticate, ctrl.logout);
 
 router.put("/avatar", authenticate, upload.single("avatar"), ctrl.editAvatar);
+router.get("/user", authenticate, getUser);
 router.put(
-  "/",
+  "/user",
   authenticate,
   validateBody(schemas.userUpdateSchema),
   ctrl.updateUserById
