@@ -49,10 +49,10 @@ const login = async (req, res) => {
   };
 
   const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
-    expiresIn: "15m",
+    expiresIn: "30m",
   });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-    expiresIn: "15d",
+    expiresIn: "30d",
   });
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
@@ -63,6 +63,7 @@ const login = async (req, res) => {
       city: user.city,
       phone: user.phone,
       avatarURL: user.avatarURL,
+      birthday: user.birthday,
       favoriteNotices: user.favoriteNotices,
     },
     accessToken,
@@ -86,10 +87,11 @@ const logout = async (req, res) => {
     message: "Logout success",
   });
 };
-const updateUserById = async (req, res) => {
-  const { id } = req.params;
 
-  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+const updateUserById = async (req, res) => {
+  const { _id } = req.user;
+
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, "User not found");
   }
@@ -99,6 +101,8 @@ const updateUserById = async (req, res) => {
     phone: result.phone,
     email: result.email,
     birthday: result.birthday,
+    avatarURL: result.avatarURL,
+    favoriteNotices: result.favoriteNotices,
   });
 };
 const editAvatar = async (req, res) => {
@@ -126,7 +130,7 @@ const refreshToken = async (req, res) => {
     };
 
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
-      expiresIn: "15m",
+      expiresIn: "30m",
     });
 
     res.json({
