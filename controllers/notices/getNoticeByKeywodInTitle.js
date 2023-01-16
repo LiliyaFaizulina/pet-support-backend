@@ -2,14 +2,12 @@ const { HttpError } = require("../../helpers");
 const { Notice } = require("../../models/notices");
 
 const getNoticesByCategory = async (req, res) => {
-  const { categoryName } = req.params;
-  const { page = 1, limit = 10 } = req.query;
-  const skip = (page - 1) * limit;
+  const { q } = req.query;
 
-  const notices = await Notice.find({ category: categoryName }, "", {
-    skip,
-    limit,
-  });
+  console.log(req.query);
+
+  const notices = await Notice.find({ $text: { $search: q } });
+
   if (!notices) {
     throw HttpError(404);
   }
