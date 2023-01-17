@@ -1,0 +1,591 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "version": "1.0.0",
+      "title": "Pet-support-API",
+      "description": "This is a sample Pet support Server based on the OpenAPI 3.0 specification."
+    },
+
+    "consumes": ["application/json", "multipart/form-data"],
+    "produces": ["application/json"],
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    },
+    "servers": [
+      {
+        "url": "https://pet-support-test1.onrender.com"
+      }
+    ],
+
+    "tags": [
+        {
+          "name": "user",
+          "description": "Operations about user"
+        },
+      {
+        "name": "pets",
+        "description": "Everything about users pets"
+      },
+      {
+        "name": "notices",
+        "description": "Operations with notices"
+      },
+      {
+        "name": "news",
+        "description": "Operations with news"
+      },
+      {
+        "name": "sponsors",
+        "description": "Operations with sponsors"
+      }
+    ],
+    "paths": {
+      "/api/users/register": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Create user",
+          "description": "",
+          "operationId": "createUser",
+          "requestBody": {
+            "description": "Created user object",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RegistrationResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+              },
+              "409": {
+                "description": "Email in use",
+                "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Error"
+                    }
+                    
+                  }
+                }
+              }
+            }
+            
+          }
+      },
+      "/api/users/login": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "login user",
+          "description": "",
+          "operationId": "loginUser",
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+              },
+              "401": {
+                "description": "Email or password is wrong",
+                "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Error"
+                    }
+                    
+                  }
+                }
+              }
+            }
+            
+          }
+      },
+      "/api/users/logout": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Logs out current logged in user",
+          "description": "",
+          "operationId": "logoutUser",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+      },
+      "/api/users/user": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Information about current user",
+          "description": "",
+          "operationId": "getUser",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/UserWithPets"
+                    }
+                    
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          },
+          "security":[{"Bearer": []}]
+        },
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Change information about current user",
+          "description": "",
+          "operationId": "updateUser",
+          "parameters": [],
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FieldToUpdate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/User"
+                    }
+                    
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+      },
+      "/api/users/refresh": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "refresh access token",
+          "description": "",
+          "operationId": "refreshAccess",
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RefreshResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+              },
+              "403": {
+                "description": "Invalid signature",
+                "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Error"
+                    }
+                    
+                  }
+                }
+              }
+            }
+            
+          }
+      },
+      "/api/sponsors": {
+        "get": {
+          "tags": [
+            "sponsors"
+          ],
+          "summary": "Get all sponsors",
+          "description": "",
+          "operationId": "getSponsors",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SponsorsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/news": {
+        "get": {
+          "tags": [
+            "news"
+          ],
+          "summary": "Get all news",
+          "description": "",
+          "operationId": "getNews",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NewsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "RegistrationRequest": {
+          "type": "object",
+          "required": ["name", "email", "password", "phone", "city"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "theUser"
+              
+            },
+            "email": {
+              "type": "string",
+              "example": "john@email.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "1234567"
+            },
+            "phone": {
+              "type": "string",
+              "example": "12345"
+            },
+            "city": {
+              "type": "string",
+              "example": "Kyiv"
+            }
+          }
+        },
+        "RegistrationResponse":{
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "john@email.com"
+            }
+          }
+        },
+        "Error":{
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Error message"
+            }
+          }
+        },
+        "LoginRequest": {
+          "type": "object",
+          "required": ["email", "password"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "john@email.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "1234567"
+            }
+          }
+        },
+        "LoginResponse":{
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "example":{
+                "name": "theUser",
+                "email": "john@email.com",
+                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
+                "phone":"12345",
+                "city":"Kyiv",
+                "birthday":"01.01.1900",
+                "favoriteNotices": []
+              }
+            },
+            "accessToken": {
+              "type": "string"
+            },
+            "refreshToken": {
+              "type": "string"
+            }
+          }
+        },
+        "UserWithPets":{
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "example":{
+                "name": "theUser",
+                "email": "john@email.com",
+                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
+                "phone":"12345",
+                "city":"Kyiv",
+                "birthday":"01.01.1900",
+                "favoriteNotices": []
+              }
+            },
+            "pets": {
+              "type": "array",
+              "example": []
+            }
+          }
+        },
+        "User":{
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "example":{
+                "name": "theUser",
+                "email": "john@email.com",
+                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
+                "phone":"12345",
+                "city":"Kyiv",
+                "birthday":"01.01.1900",
+                "favoriteNotices": []
+              }
+            }
+          }
+        },
+        "FieldToUpdate":
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "theUser"
+              
+            },
+            "email": {
+              "type": "string",
+              "example": "john@email.com"
+            },
+            "birthday": {
+              "type": "string",
+              "example": "12.09.2000"
+            },
+            "phone": {
+              "type": "string",
+              "example": "12345"
+            },
+            "city": {
+              "type": "string",
+              "example": "Kyiv"
+            }
+          }
+        },
+        "RefreshRequest": {
+          "type": "object",
+          "required": ["refreshToken"],
+          "properties": {
+            "refreshToken": {
+              "type": "string"
+            }
+          }
+        },
+        "RefreshResponse":{
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string"
+            },
+            "refreshToken": {
+              "type": "string"
+            }
+          }
+        },
+        "SponsorsResponse":{
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "63bf12ea67b57c04689197de"
+              },
+              "title": {
+                "type": "string",
+                "example": "Purina"
+              },
+              "url":{
+                "type": "string",
+                "example": "https://www.purina.ua/"
+              },
+              "imageUrl": {
+                "type": "string",
+                "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_290.png"
+              },
+              "workDays": {
+                "type": "array"
+              },
+              "phone":{
+                "type": "string",
+                "example": "380800500950"
+              },
+              "email": {
+                "type": "string",
+                "example": "info@ua.nestle.com"
+              }
+          }
+          }
+        },
+        "NewsResponse":{
+          "type": "object",
+          "properties":{
+            "news": {
+            "type": "array",
+            "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "63bf123567b57c04689197d2"
+              },
+              "title": {
+                "type": "string",
+                "example": "Умови змінились: як з України вивести тварину за кордон"
+              },
+              "url":{
+                "type": "string",
+                "example": "https://tsn.ua/exclusive/umovi-zminilis-yak-z-ukrayini-vivesti-tvarinu-za-kordon-2118079.html"
+              },
+              "description": {
+                "type": "string",
+                "example": "Вимоги до виїзду тварин після початку повномасштабного вторгнення в багатьох країнах були спрощені. Чотирилапих випускали без жодного документа. А вакцинувати та чипувати могли просто на кордоні. Але тепер спрощений..."
+              },
+              "date":{
+                "type": "string",
+                "example": "2022-07-24"
+              }
+            }
+          }
+          }
+          }
+        }
+
+      },
+      "securitySchemes": {
+        "Bearer":{
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }
