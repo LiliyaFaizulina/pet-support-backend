@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.get("/own", authenticate, controller.getUserNotices);
 router.get("/favorite", authenticate, controller.getNoticeByFavorite);
-router.get("/search", authenticate, controller.getNoticeByKeywodInTitle);
+router.get("/search", controller.getNoticeByKeywodInTitle);
+router.get("/notice/:noticeId", controller.getNoticeById);
 router.get("/:categoryName", controller.getNoticesByCategory);
-router.get("/:noticeId", controller.getNoticeById);
 router.post(
   "/:categoryName",
   authenticate,

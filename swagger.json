@@ -239,6 +239,48 @@
           "security":[{"Bearer": []}]
         }
       },
+      "/api/users/avatar": {
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Update user`s avatar",
+          "description": "",
+          "operationId": "updateUsersAvatar",
+          "parameters": [],
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "$ref": "#/components/schemas/Avatar"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/UserAvatar"
+                    }
+                    
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+      },
       "/api/users/refresh": {
         "post": {
           "tags": [
@@ -293,6 +335,331 @@
             }
             
           }
+      },
+      "/api/pets": {
+        "post": {
+          "tags": [
+            "pets"
+          ],
+          "summary": "Add new user`s pet",
+          "description": "",
+          "operationId": "addPet",
+          "parameters": [],
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/NewPet"
+                    }
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Avatar is required"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+      },
+      "/api/pets/{petId}":{
+        "delete": {
+          "tags": [
+            "pets"
+          ],
+          "summary": "Delete pet",
+          "description": "",
+          "operationId": "deletePet",
+          "parameters": [{"name": "petId", "in": "path", "required": true}],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/NewPet"
+                    }
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+
+      },
+      "/api/notices/notice/{noticeId}":{
+        "get": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Get notice by id",
+          "description": "",
+          "operationId": "get Notice",
+          "parameters": [{"name": "noticeId", "in": "path", "required": true}],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notice"
+                    }
+                  }
+                }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        }
+      },
+      "/api/notices/search":{
+        "get": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Get notices by keyword in title",
+          "description": "",
+          "operationId": "get Notice",
+          "parameters": [{"name": "q", "in": "query", "required": true }],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notices"
+                    }
+                  }
+                }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        }
+
+      },
+      "/api/notices/own":{
+        "get": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Get own notices",
+          "description": " ",
+          "operationId": "getOwnNotice",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notices"
+                    }
+                  }
+                }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+
+      },
+      "/api/notices/favorite":{
+        "get": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Get favorite notices",
+          "description": "",
+          "operationId": "get Notice",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notices"
+                    }
+                  }
+                }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+      },
+      "/api/notices/{categoryName}":{
+        "get": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Get notices by category",
+          "description": "Categories names: sell, for-free, lost-found",
+          "operationId": "get Notice",
+          "parameters": [{"name": "categoryName", "in": "path", "required": true }, {"name": "page", "in": "query", "type": "integer"}, {"name": "limit", "in": "query", "type": "integer"}],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notices"
+                    }
+                  }
+                }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Not found"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Add new notice",
+          "description": "",
+          "operationId": "addPet",
+          "parameters": [],
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewNotice"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notice"
+                    }
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
+
+      },
+      "/api/notices/{noticeId}":{
+        "patch": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Update favorite status",
+          "description": "",
+          "operationId": "updateFavoriteStatus",
+          "parameters": [{"name": "noticeId", "in": "path", "required": true}],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/FavoriteNotices"
+                    }
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        },
+        "delete": {
+          "tags": [
+            "notices"
+          ],
+          "summary": "Delete notice",
+          "description": "",
+          "operationId": "deleteNotice",
+          "parameters": [{"name": "noticeId", "in": "path", "required": true}],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {              
+                  "application/json": {
+                    "schema":{
+                      "$ref": "#/components/schemas/Notice"
+                    }
+                  }
+                }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
+        }
       },
       "/api/sponsors": {
         "get": {
@@ -350,7 +717,6 @@
             "name": {
               "type": "string",
               "example": "theUser"
-              
             },
             "email": {
               "type": "string",
@@ -463,8 +829,7 @@
             }
           }
         },
-        "FieldToUpdate":
-        {
+        "FieldToUpdate":{
           "type": "object",
           "properties": {
             "name": {
@@ -489,6 +854,223 @@
               "example": "Kyiv"
             }
           }
+        },
+        "UserAvatar":{
+          "type": "object",
+          "properties": {
+            "avatarURL": {
+              "type": "string",
+              "example": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg"
+            }
+          }
+        },
+        "Avatar":{
+          "type": "object",
+          "properties": {
+            "avatar": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        },
+        "Pet":{
+          "type": "object",
+          "required": ["name", "petAvatar"],
+          "properties": {
+            "petAvatar": {
+              "type": "string",
+              "format": "binary"
+            },
+            "name": {
+              "type": "string",
+              "example": "Gav"
+            },
+            "birthday": {
+              "type": "string",
+              "example": "12.12.2019"
+            },
+            "breed": {
+              "type": "string",
+              "example": "outbreed"
+            },
+            "comments": {
+              "type": "string",
+              "example": "Cute boy"
+            }
+          }
+        },
+        "NewPet":{
+          "type": "object",
+          "properties": {
+            "petAvatar": {
+              "type": "string",
+              "example": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673696237/petly_dir…"
+            },
+            "name": {
+              "type": "string",
+              "example": "Gav"
+            },
+            "birthday": {
+              "type": "string",
+              "example": "12.12.2019"
+            },
+            "breed": {
+              "type": "string",
+              "example": "outbreed"
+            },
+            "comments": {
+              "type": "string",
+              "example": "Cute boy"
+            },
+            "owner":{
+              "type": "string",
+              "example": "63c28b67389c8028613aca52"
+            },
+            "_id":{
+              "type": "string",
+              "example": "63c293ef9c2c38b4a60b3d3b"
+            }
+          }
+
+        },
+        "Notice":{
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "Cute dog looking for good hands"
+            },
+            "image": {
+              "type": "string",
+              "example": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673696237/petly_dir…"
+            },
+            "petName": {
+              "type": "string",
+              "example": "Gav"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "example": "12.12.2019"
+            },
+            "category": {
+              "type": "string",
+              "example": "sell"
+            },
+            "location": {
+              "type": "string",
+              "example": "Kyiv"
+            },
+            "comments": {
+              "type": "string",
+              "example": "Cute boy"
+            },
+            "breed": {
+              "type": "string",
+              "example": "outbreed"
+            },
+            "sex": {
+              "type": "string",
+              "example": "male"
+            },
+            "price": {
+              "type": "integer",
+              "example": 0
+            },
+            "owner":{
+              "type": "string",
+              "example": "63c28b67389c8028613aca52"
+            },
+            "_id":{
+              "type": "string",
+              "example": "63c293ef9c2c38b4a60b3d3b"
+            }
+          }
+
+        },
+        "NewNotice":{
+          "type": "object",
+          "required":["title", "petName", "location", "dateOfBirth", "image", "category"],
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "Cute dog looking for good hands"
+            },
+            "image": {
+              "type": "string",
+              "format": "binary"
+            },
+            "petName": {
+              "type": "string",
+              "example": "Gav"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "example": "12.12.2019"
+            },
+            "category": {
+              "type": "string",
+              "enum": ["sell", "lost-found", "for-free"],
+              "example": "sell"
+            },
+            "location": {
+              "type": "string",
+              "example": "Kyiv"
+            },
+            "comments": {
+              "type": "string",
+              "example": "Cute boy"
+            },
+            "breed": {
+              "type": "string",
+              "example": "outbreed"
+            },
+            "sex": {
+              "type": "string",
+              "example": "male"
+            },
+            "price": {
+              "type": "integer",
+              "example": 0
+            }
+          }
+
+        },
+        "Notices":{
+          "type": "object",
+          "properties":{
+            "notices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                  "$ref": "#/components/schemas/Notice"
+                
+              }
+            }
+          }
+
+        },
+        "FavoriteNotices":{
+          "type": "object",
+          "properties":{
+            "user": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "favoriteNotices": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                    
+                  }
+                }
+              }
+            }
+
+          }
+
         },
         "RefreshRequest": {
           "type": "object",

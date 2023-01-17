@@ -36,6 +36,7 @@ const noticeSchema = new Schema(
     },
     image: {
       type: String,
+      required: true,
     },
     comments: {
       type: String,
