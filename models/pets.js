@@ -23,7 +23,7 @@ const petSchema = new Schema(
     petAvatar: {
       type: String,
       default: "",
-      required: true,  
+      required: true,
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -41,7 +41,6 @@ const addPetSchema = Joi.object({
   birthday: Joi.string(),
   breed: Joi.string().min(2).max(16),
   comments: Joi.string().min(8).max(120),
-  // avatar: Joi.string().required(),
 });
 
 const schemasPet = { addPetSchema };
