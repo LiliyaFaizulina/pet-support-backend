@@ -7,6 +7,7 @@ const noticeSchema = new Schema(
     title: {
       type: String,
       required: [true, "Set title"],
+      text: true,
     },
     petName: {
       type: String,
