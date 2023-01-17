@@ -7,7 +7,7 @@ const getNoticeByFavorite = async (req, res) => {
   if (!notices) {
     throw HttpError(404);
   }
-  res.json({ message: "success", favoriteNotices: notices });
+  res.json({ notices });
 };
 
 module.exports = getNoticeByFavorite;

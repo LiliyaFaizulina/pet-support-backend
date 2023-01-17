@@ -7,6 +7,7 @@ const noticeSchema = new Schema(
     title: {
       type: String,
       required: [true, "Set title"],
+      text: true,
     },
     petName: {
       type: String,
@@ -41,7 +42,7 @@ const noticeSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["lost-found", "in-good-hands", "sell"],
+      enum: ["lost-found", "for-free", "sell"],
       required: true,
     },
     owner: {
@@ -66,9 +67,7 @@ const addSchema = Joi.object({
   price: Joi.number().positive(),
   image: Joi.string(),
   comments: Joi.string(),
-  category: Joi.string()
-    .allow("lost-found", "in-good-hands", "sell")
-    .required(),
+  category: Joi.string().allow("lost-found", "for-free", "sell").required(),
 });
 
 const schemas = { addSchema };

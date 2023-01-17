@@ -4,7 +4,6 @@ const gravatar = require("gravatar");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs/promises");
 
-
 const { User } = require("../../models/user");
 const { HttpError, ctrlWrapper } = require("../../helpers/index");
 require("dotenv").config();
@@ -21,19 +20,16 @@ const register = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
 
-
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarURL,
-   
   });
 
   res.status(201).json({
     email: newUser.email,
   });
 };
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -53,10 +49,10 @@ const login = async (req, res) => {
   };
 
   const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
-    expiresIn: "3m",
+    expiresIn: "30m",
   });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-    expiresIn: "7d",
+    expiresIn: "30d",
   });
   await User.findByIdAndUpdate(user._id, { accessToken, refreshToken });
 
@@ -67,6 +63,8 @@ const login = async (req, res) => {
       city: user.city,
       phone: user.phone,
       avatarURL: user.avatarURL,
+      birthday: user.birthday,
+      favoriteNotices: user.favoriteNotices,
     },
     accessToken,
     refreshToken,
@@ -89,10 +87,11 @@ const logout = async (req, res) => {
     message: "Logout success",
   });
 };
-const updateUserById = async (req, res) => {
-  const { id } = req.params;
 
-  const result = await User.findByIdAndUpdate(id, req.body, { new: true });
+const updateUserById = async (req, res) => {
+  const { _id } = req.user;
+
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, "User not found");
   }
@@ -102,6 +101,8 @@ const updateUserById = async (req, res) => {
     phone: result.phone,
     email: result.email,
     birthday: result.birthday,
+    avatarURL: result.avatarURL,
+    favoriteNotices: result.favoriteNotices,
   });
 };
 const editAvatar = async (req, res) => {
@@ -117,10 +118,10 @@ const editAvatar = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-  const { refreshToken: token } = req.body;
+  const { refreshToken } = req.body;
   try {
-    const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
-    const isValid = await User.findOne({ refreshToken: token });
+    const { id } = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
+    const isValid = await User.findOne({ refreshToken });
     if (!isValid) {
       throw HttpError(403, "invalid signature");
     }
@@ -129,10 +130,7 @@ const refreshToken = async (req, res) => {
     };
 
     const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
-      expiresIn: "3m",
-    });
-    const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
-      expiresIn: "7d",
+      expiresIn: "30m",
     });
 
     res.json({
