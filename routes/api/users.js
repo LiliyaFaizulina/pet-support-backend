@@ -6,7 +6,6 @@ const { getUser } = require("../../controllers/pets");
 const { validateBody, authenticate, upload } = require("../../midlewares");
 
 const { schemas } = require("../../models/user");
-const { get } = require("mongoose");
 
 const router = express.Router();
 
