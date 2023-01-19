@@ -10,6 +10,7 @@ const updateUserById = async (req, res) => {
     throw HttpError(404, "User not found");
   }
   res.json({
+    _id: result._id,
     name: result.name,
     city: result.city,
     phone: result.phone,
