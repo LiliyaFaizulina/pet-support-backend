@@ -14,7 +14,7 @@
     },
     "servers": [
       {
-        "url": "https://pet-support-test1.onrender.com"
+        "url": "https://pet-support-test2.onrender.com"
       },
       {
         "url": "http://localhost:4000"
@@ -799,6 +799,10 @@
         "User":{
           "type": "object",
           "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "63c6f80fab4874e768f0dd83"
+                },
                 "name": {
                   "type": "string",
                   "example": "theUser"
