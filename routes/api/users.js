@@ -1,7 +1,6 @@
 const express = require("express");
 
-const ctrl = require("../../controllers/users/auth");
-const { getUser } = require("../../controllers/pets");
+const ctrl = require("../../controllers/users");
 
 const { validateBody, authenticate, upload } = require("../../midlewares");
 
@@ -13,12 +12,10 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
-router.get("/current", authenticate, ctrl.getCurrent);
-
 router.get("/logout", authenticate, ctrl.logout);
 
 router.put("/avatar", authenticate, upload.single("avatar"), ctrl.editAvatar);
-router.get("/user", authenticate, getUser);
+router.get("/user", authenticate, ctrl.getUser);
 router.put(
   "/user",
   authenticate,

@@ -1,11 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
-const cloudinary = require("cloudinary").v2;
-const fs = require("fs/promises");
 
 const { User } = require("../../models/user");
-const { HttpError, ctrlWrapper } = require("../../helpers/index");
+const { HttpError } = require("../../helpers");
 require("dotenv").config();
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -26,8 +24,31 @@ const register = async (req, res) => {
     avatarURL,
   });
 
+  const payload = {
+    id: newUser._id,
+  };
+
+  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, {
+    expiresIn: "30m",
+  });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "30d",
+  });
+  await User.findByIdAndUpdate(newUser._id, { accessToken, refreshToken });
+
   res.status(201).json({
-    email: newUser.email,
+    user: {
+      _id: newUser._id,
+      email: newUser.email,
+      name: newUser.name,
+      city: newUser.city,
+      phone: newUser.phone,
+      avatarURL: newUser.avatarURL,
+      birthday: newUser.birthday,
+      favoriteNotices: newUser.favoriteNotices,
+    },
+    accessToken,
+    refreshToken,
   });
 };
 
@@ -58,6 +79,7 @@ const login = async (req, res) => {
 
   res.json({
     user: {
+      _id: user._id,
       email: user.email,
       name: user.name,
       city: user.city,
@@ -71,49 +93,11 @@ const login = async (req, res) => {
   });
 };
 
-const getCurrent = (req, res) => {
-  const { email, subscription } = req.user;
-
-  res.json({
-    email,
-    subscription,
-  });
-};
-
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
   res.json({
     message: "Logout success",
-  });
-};
-
-const updateUserById = async (req, res) => {
-  const { _id } = req.user;
-
-  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
-  if (!result) {
-    throw HttpError(404, "User not found");
-  }
-  res.json({
-    name: result.name,
-    city: result.city,
-    phone: result.phone,
-    email: result.email,
-    birthday: result.birthday,
-    avatarURL: result.avatarURL,
-    favoriteNotices: result.favoriteNotices,
-  });
-};
-const editAvatar = async (req, res) => {
-  const { _id } = req.user;
-  const { path: tempUpload } = req.file;
-  const { url } = await cloudinary.uploader.upload(tempUpload);
-  const avatarURL = url;
-  await User.findByIdAndUpdate(_id, { avatarURL });
-  fs.unlink(tempUpload);
-  res.json({
-    avatarURL,
   });
 };
 
@@ -143,11 +127,8 @@ const refreshToken = async (req, res) => {
 };
 
 module.exports = {
-  login: ctrlWrapper(login),
-  register: ctrlWrapper(register),
-  updateUserById: ctrlWrapper(updateUserById),
-  editAvatar: ctrlWrapper(editAvatar),
-  logout: ctrlWrapper(logout),
-  getCurrent: ctrlWrapper(getCurrent),
-  refreshToken: ctrlWrapper(refreshToken),
+  login,
+  register,
+  logout,
+  refreshToken,
 };
