@@ -16,6 +16,6 @@ router.post(
   ctrlWrapper(addPet)
 );
 
-router.delete("/:petsId", authenticate, ctrlWrapper(removePetById));
+router.delete("/:id", authenticate, ctrlWrapper(removePetById));
 
 module.exports = router;
