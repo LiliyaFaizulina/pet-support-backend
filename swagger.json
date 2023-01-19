@@ -75,25 +75,10 @@
               }
             },
             "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
+              "description": "Bad request"
               },
               "409": {
-                "description": "Email in use",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+                "description": "Email in use"
               }
             }
             
@@ -129,26 +114,8 @@
                 }
               }
             },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
-              },
-              "401": {
-                "description": "Email or password is wrong",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+              "400": {
+                "description": "Email or password is wrong"
               }
             }
             
@@ -315,25 +282,10 @@
               }
             },
             "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
+              "description": "Bad request"
               },
               "403": {
-                "description": "Invalid signature",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+                "description": "Invalid signature"
               }
             }
             
@@ -742,15 +694,6 @@
             "city": {
               "type": "string",
               "example": "Kyiv"
-            }
-          }
-        },
-        "Error":{
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "Error message"
             }
           }
         },
