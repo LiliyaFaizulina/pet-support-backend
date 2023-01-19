@@ -9,7 +9,7 @@ const getUser = async (req, res) => {
     city,
     phone,
     favoriteNotices,
-    _id: owner,
+    _id,
   } = req.user;
 
   const pets = await Pet.find({ owner: _id }, "-createdAt -updatedAt -owner");
