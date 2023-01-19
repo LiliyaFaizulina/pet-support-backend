@@ -4,7 +4,7 @@ const getUser = async (req, res) => {
   const {
     name,
     email,
-    avatar,
+    avatarURL,
     birthday,
     city,
     phone,
@@ -18,7 +18,7 @@ const getUser = async (req, res) => {
     user: {
       name,
       email,
-      avatar,
+      avatarURL,
       birthday,
       city,
       phone,
