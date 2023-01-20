@@ -10,7 +10,7 @@ router.get("/search", controller.getNoticeByKeywodInTitle);
 router.get("/notice/:noticeId", controller.getNoticeById);
 router.get("/:categoryName", controller.getNoticesByCategory);
 router.post(
-  "/:categoryName",
+  "/notice",
   authenticate,
   upload.single("image"),
   controller.addNoticeByCategory
