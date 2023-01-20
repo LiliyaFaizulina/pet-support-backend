@@ -4,21 +4,22 @@ const getUser = async (req, res) => {
   const {
     name,
     email,
-    avatar,
+    avatarURL,
     birthday,
     city,
     phone,
     favoriteNotices,
-    _id: owner,
+    _id,
   } = req.user;
 
-  const pets = await Pet.find({ owner }, "-createdAt -updatedAt -owner");
+  const pets = await Pet.find({ owner: _id }, "-createdAt -updatedAt -owner");
   res.json({
     message: "success",
     user: {
+      _id,
       name,
       email,
-      avatar,
+      avatarURL,
       birthday,
       city,
       phone,

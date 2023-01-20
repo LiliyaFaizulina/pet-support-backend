@@ -14,7 +14,10 @@
     },
     "servers": [
       {
-        "url": "https://pet-support-test1.onrender.com"
+        "url": "https://pet-support-test2.onrender.com"
+      },
+      {
+        "url": "http://localhost:4000"
       }
     ],
 
@@ -66,31 +69,16 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/RegistrationResponse"
+                    "$ref": "#/components/schemas/AuthResponse"
                   }
                 }
               }
             },
             "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
+              "description": "Bad request"
               },
               "409": {
-                "description": "Email in use",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+                "description": "Email in use"
               }
             }
             
@@ -121,31 +109,13 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/LoginResponse"
+                    "$ref": "#/components/schemas/AuthResponse"
                   }
                 }
               }
             },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
-              },
-              "401": {
-                "description": "Email or password is wrong",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+              "400": {
+                "description": "Email or password is wrong"
               }
             }
             
@@ -312,25 +282,10 @@
               }
             },
             "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
-                }
-              }
+              "description": "Bad request"
               },
               "403": {
-                "description": "Invalid signature",
-                "content": {              
-                  "application/json": {
-                    "schema":{
-                      "$ref": "#/components/schemas/Error"
-                    }
-                    
-                  }
-                }
+                "description": "Invalid signature"
               }
             }
             
@@ -402,6 +357,9 @@
             },
             "400": {
               "description": "Bad request"
+            },
+            "500": {
+              "description": "Invalid id"
             }
           },
           "security":[{"Bearer": []}]
@@ -433,6 +391,9 @@
             },
             "404": {
               "description": "Not found"
+            },
+            "500": {
+              "description": "Invalid id"
             }
           }
         }
@@ -736,24 +697,6 @@
             }
           }
         },
-        "RegistrationResponse":{
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "example": "john@email.com"
-            }
-          }
-        },
-        "Error":{
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "Error message"
-            }
-          }
-        },
         "LoginRequest": {
           "type": "object",
           "required": ["email", "password"],
@@ -768,20 +711,12 @@
             }
           }
         },
-        "LoginResponse":{
+        "AuthResponse":{
           "type": "object",
           "properties": {
             "user": {
               "type": "object",
-              "example":{
-                "name": "theUser",
-                "email": "john@email.com",
-                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
-                "phone":"12345",
-                "city":"Kyiv",
-                "birthday":"01.01.1900",
-                "favoriteNotices": []
-              }
+              "$ref": "#/components/schemas/User"
             },
             "accessToken": {
               "type": "string"
@@ -796,15 +731,7 @@
           "properties": {
             "user": {
               "type": "object",
-              "example":{
-                "name": "theUser",
-                "email": "john@email.com",
-                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
-                "phone":"12345",
-                "city":"Kyiv",
-                "birthday":"01.01.1900",
-                "favoriteNotices": []
-              }
+              "$ref": "#/components/schemas/User"
             },
             "pets": {
               "type": "array",
@@ -815,18 +742,38 @@
         "User":{
           "type": "object",
           "properties": {
-            "user": {
-              "type": "object",
-              "example":{
-                "name": "theUser",
-                "email": "john@email.com",
-                "avatarURL": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg",
-                "phone":"12345",
-                "city":"Kyiv",
-                "birthday":"01.01.1900",
-                "favoriteNotices": []
-              }
-            }
+                "_id": {
+                  "type": "string",
+                  "example": "63c6f80fab4874e768f0dd83"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "theUser"
+                },
+                "email":{
+                  "type": "string",
+                  "example": "john@email.com"
+                },
+                "avatarURL":{
+                  "type": "string",
+                  "example": "http://res.cloudinary.com/dvqddp5la/image/upload/v1673618335/w3t87ucpbxquzk24kmwx.jpg"
+                },
+                "phone":{
+                  "type": "string",
+                  "example": "12345"
+                },
+                "city":{
+                  "type": "string",
+                  "example": "Kyiv"
+                },
+                "birthday":{
+                  "type": "string",
+                  "example": "01.01.1900"
+                },
+                "favoriteNotices": {
+                  "type": "array",
+                  "example": []
+                }
           }
         },
         "FieldToUpdate":{
