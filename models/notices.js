@@ -66,7 +66,6 @@ const addSchema = Joi.object({
   sex: Joi.string().allow("male", "female"),
   location: Joi.string().required(),
   price: Joi.number().positive(),
-  image: Joi.string(),
   comments: Joi.string(),
   category: Joi.string().allow("lost-found", "for-free", "sell").required(),
 });
