@@ -19,6 +19,7 @@ const noticeSchema = new Schema(
     },
     breed: {
       type: String,
+      default: "",
     },
     sex: {
       type: String,
@@ -39,6 +40,7 @@ const noticeSchema = new Schema(
     },
     comments: {
       type: String,
+      default: "",
     },
     category: {
       type: String,
@@ -61,10 +63,10 @@ const addSchema = Joi.object({
   title: Joi.string().required(),
   petName: Joi.string().required(),
   dateOfBirth: Joi.string().required(),
-  breed: Joi.string(),
   sex: Joi.string().allow("male", "female"),
   location: Joi.string().required(),
-  price: Joi.number().positive(),
+  price: Joi.number(),
+  breed: Joi.string(),
   comments: Joi.string(),
   category: Joi.string().allow("lost-found", "for-free", "sell").required(),
 });

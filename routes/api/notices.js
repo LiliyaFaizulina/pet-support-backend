@@ -1,7 +1,6 @@
 const express = require("express");
 const controller = require("../../controllers/notices");
-const { authenticate, upload, validateBody } = require("../../midlewares");
-const { schemas } = require("../../models/notices");
+const { authenticate, upload } = require("../../midlewares");
 
 const router = express.Router();
 
@@ -14,7 +13,6 @@ router.post(
   "/notice",
   authenticate,
   upload.single("image"),
-  validateBody(schemas.addSchema),
   controller.addNoticeByCategory
 );
 router.patch("/:noticeId", authenticate, controller.updateFavorite);
