@@ -19,7 +19,6 @@ const noticeSchema = new Schema(
     },
     breed: {
       type: String,
-      default: "outbreed",
     },
     sex: {
       type: String,
