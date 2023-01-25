@@ -207,6 +207,41 @@
             }
           },
           "security":[{"Bearer": []}]
+        },
+        "patch": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Change password",
+          "description": "",
+          "operationId": "updatePassword",
+          "parameters": [],
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePassword"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Password updated successfully"
+            },
+            "400": {
+              "description": "Password is wrong"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad request"
+            }
+          },
+          "security":[{"Bearer": []}]
         }
       },
       "/api/users/avatar": {
@@ -710,6 +745,18 @@
             "password": {
               "type": "string",
               "example": "1234567"
+            }
+          }
+        },
+        "UpdatePassword":{
+          "type": "object",
+          "required": ["newPassword", "password"],
+          "properties": {
+            "newPassword": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
             }
           }
         },

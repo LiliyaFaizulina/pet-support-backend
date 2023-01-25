@@ -1,5 +1,5 @@
 const { login, register, logout, refreshToken } = require("./auth");
-const { editAvatar, updateUserById } = require("./updateUser");
+const { editAvatar, updateUserById, updatePassword } = require("./updateUser");
 const getUser = require("./getUser");
 const { ctrlWrapper } = require("../../helpers");
 
@@ -11,4 +11,5 @@ module.exports = {
   logout: ctrlWrapper(logout),
   refreshToken: ctrlWrapper(refreshToken),
   getUser: ctrlWrapper(getUser),
+  updatePassword: ctrlWrapper(updatePassword),
 };

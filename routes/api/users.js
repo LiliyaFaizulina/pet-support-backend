@@ -23,6 +23,13 @@ router.put(
   ctrl.updateUserById
 );
 
+router.patch(
+  "/user",
+  authenticate,
+  validateBody(schemas.updatePasswordSchema),
+  ctrl.updatePassword
+);
+
 router.post(
   "/refresh",
   validateBody(schemas.refreshTokenSchema),
