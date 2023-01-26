@@ -1,4 +1,10 @@
-const { login, register, logout, refreshToken } = require("./auth");
+const {
+  login,
+  register,
+  logout,
+  refreshToken,
+  restorePassword,
+} = require("./auth");
 const { editAvatar, updateUserById, updatePassword } = require("./updateUser");
 const getUser = require("./getUser");
 const { ctrlWrapper } = require("../../helpers");
@@ -12,4 +18,5 @@ module.exports = {
   refreshToken: ctrlWrapper(refreshToken),
   getUser: ctrlWrapper(getUser),
   updatePassword: ctrlWrapper(updatePassword),
+  restorePassword: ctrlWrapper(restorePassword),
 };

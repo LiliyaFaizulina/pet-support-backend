@@ -141,6 +141,39 @@
           "security":[{"Bearer": []}]
         }
       },
+      "/api/users/restore": {
+        "patch": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Restore password",
+          "description": "",
+          "operationId": "restorePassword",
+          "requestBody": {
+            "description": "",
+            "required":true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "400": {
+              "description": "Bad request"
+              },
+              "404": {
+                "description": "Not found"
+              }
+            }
+            
+          }
+      },
       "/api/users/user": {
         "get": {
           "tags": [
@@ -1074,6 +1107,16 @@
           "properties": {
             "refreshToken": {
               "type": "string"
+            }
+          }
+        },
+        "RestoreRequest": {
+          "type": "object",
+          "required": ["email"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format":"email"
             }
           }
         },

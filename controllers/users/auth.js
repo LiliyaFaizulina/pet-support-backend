@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers");
+const { HttpError, sendEmail } = require("../../helpers");
+const { nanoid } = require("nanoid");
 require("dotenv").config();
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
@@ -126,9 +127,39 @@ const refreshToken = async (req, res) => {
   }
 };
 
+const restorePassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw HttpError(404, "Not found");
+  }
+
+  const newPassword = nanoid();
+  const hashPassword = await bcrypt.hash(newPassword, 10);
+
+  const updatedUser = await User.findOneAndUpdate(
+    { email },
+    { password: hashPassword }
+  );
+
+  if (!updatedUser) {
+    throw HttpError(404, "Not found");
+  }
+
+  const infoEmail = {
+    to: email,
+    subject: "Restore access",
+    html: `<p>Your new password for petly: ${newPassword}</p> <p>You can change it in your account</p>`,
+  };
+
+  await sendEmail(infoEmail);
+  res.json({ message: "New password was sent on your email" });
+};
+
 module.exports = {
   login,
   register,
   logout,
   refreshToken,
+  restorePassword,
 };

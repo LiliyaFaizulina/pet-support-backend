@@ -85,12 +85,17 @@ const updatePasswordSchema = Joi.object({
   newPassword: Joi.string().required(),
 });
 
+const restorePasswordSchema = Joi.object({
+  email: Joi.string().required(),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
   userUpdateSchema,
   refreshTokenSchema,
   updatePasswordSchema,
+  restorePasswordSchema,
 };
 
 const User = model("user", userShema);
