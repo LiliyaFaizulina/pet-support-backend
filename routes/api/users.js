@@ -30,6 +30,12 @@ router.patch(
   ctrl.updatePassword
 );
 
+router.patch(
+  "/restore",
+  validateBody(schemas.restorePasswordSchema),
+  ctrl.restorePassword
+);
+
 router.post(
   "/refresh",
   validateBody(schemas.refreshTokenSchema),
