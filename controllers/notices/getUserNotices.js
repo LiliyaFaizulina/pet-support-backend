@@ -3,15 +3,15 @@ const { Notice } = require("../../models/notices");
 
 const getUserNotices = async (req, res) => {
   const { _id: owner, email } = req.user;
-  const notices = await Notice.find({ owner });
-  if (!notices) {
+  const unsortedNotices = await Notice.find({ owner });
+  if (!unsortedNotices) {
     throw HttpError(404);
   }
-  const sortNotices = [...notices].sort(
+  const notices = [...unsortedNotices].sort(
     (firstNotice, secondNotice) =>
       new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
   );
-  res.json({ user: email, sortNotices });
+  res.json({ user: email, notices });
 };
 
 module.exports = getUserNotices;
