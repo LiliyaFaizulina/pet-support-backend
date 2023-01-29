@@ -13,7 +13,11 @@ const getNoticesByCategory = async (req, res) => {
   if (!notices) {
     throw HttpError(404);
   }
-  res.json({ notices });
+  const sortNotices = [...notices].sort(
+    (firstNotice, secondNotice) =>
+      new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
+  );
+  res.json({ sortNotices });
 };
 
 module.exports = getNoticesByCategory;

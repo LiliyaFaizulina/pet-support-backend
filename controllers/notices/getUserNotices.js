@@ -7,7 +7,11 @@ const getUserNotices = async (req, res) => {
   if (!notices) {
     throw HttpError(404);
   }
-  res.json({ user: email, notices });
+  const sortNotices = [...notices].sort(
+    (firstNotice, secondNotice) =>
+      new Date(secondNotice.createdAt) - new Date(firstNotice.createdAt)
+  );
+  res.json({ user: email, sortNotices });
 };
 
 module.exports = getUserNotices;
