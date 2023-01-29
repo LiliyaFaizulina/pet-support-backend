@@ -41,7 +41,7 @@ const userShema = new Schema(
     },
     birthday: {
       type: String,
-      default: "01.01.1980",
+      default: "1980-01-01",
     },
     notieceId: {
       type: [{ type: Schema.Types.ObjectId }],
